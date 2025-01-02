@@ -33,6 +33,13 @@ res(atom(0:0:1:0));
 res(atom(0:0:1:0));
 res(atom(0:0:1:0));
 res(atom(0:0:1:0));
+
+for your information, when I print in one line 
+
+print inc @-inc($atom($1:$1) R) $res(R). 
+
+I get the correct behavior. must be the clean statement causing the
+reference set to interact with itself 
 |#
 
 ;;  Binary increment in miniKanren
