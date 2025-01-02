@@ -1,11 +1,27 @@
 ;;  rackets.rkt
 ;;  20250101Z
 ;;  jpt4
-;;  Executable implementation of Transcendental Syntax in Racket
+;;  Executable implementation of Stellar Resolution in Racket.
 ;;  Racket v8.14
 
 #lang racket
 
 (require minikanren)
 (require minikanren/numbers)
-(require alphakanren) ;;TODO: package alphakanren for Racket.
+; (require alphakanren) ;;TODO: package alphakanren for Racket.
+
+#|
+inc = +inc($atom($0) $atom($1)); 
+      +inc($atom($1) $atom($0:$1)); 
+      +inc($atom($0:X) $atom($1:X)); 
+      +inc($atom($1:X) $atom($0:Y)) -inc($atom(X:$0) $atom(Y)).
+|#
+
+(define (inco i o)
+  (fresh (x y res)
+         (conde
+          [(== '(0) i) (== '(1) o)]
+          [(== '(1) i) (== '(0 1) o)]
+          [(== `(0 . ,x) i) (== `(1 . ,x) o)]
+          [(== `(1 . ,x) i) (== `(0 . ,y) o) (inco x y)]
+          )))
