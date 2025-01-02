@@ -11,12 +11,15 @@
 ; (require alphakanren) ;;TODO: package alphakanren for Racket.
 
 #|
+Binary increment in stellogen:
+
 inc = +inc($atom($0) $atom($1)); 
       +inc($atom($1) $atom($0:$1)); 
       +inc($atom($0:X) $atom($1:X)); 
       +inc($atom($1:X) $atom($0:Y)) -inc($atom(X:$0) $atom(Y)).
 |#
 
+;;  Binary increment in miniKanren
 (define (inco i o)
   (fresh (x y res)
          (conde
@@ -25,3 +28,20 @@ inc = +inc($atom($0) $atom($1));
           [(== `(0 . ,x) i) (== `(1 . ,x) o)]
           [(== `(1 . ,x) i) (== `(0 . ,y) o) (inco x y)]
           )))
+
+#|
+racket@rackets> (run 1 (q) (inco '(0) '(1)))
+'(_.0)
+racket@rackets> (run 1 (q) (inco '(1) '(0 1)))
+'(_.0)
+racket@rackets> (run 1 (q) (inco '(1 1) '(0 0 1)))
+'(_.0)
+racket@rackets> (run 1 (q) (inco '(1 1) q))
+'((0 0 1))
+racket@rackets> (run 1 (q) (inco '(1 1 0) q))
+'((0 0 1))
+racket@rackets> (run 1 (q) (inco '(1 1 0 1) q))
+'((0 0 1 1))
+racket@rackets> (run 1 (q) (inco '(1 0 1 0 1 1 0 1) q))
+'((0 1 1 0 1 1 0 1))
+|#
