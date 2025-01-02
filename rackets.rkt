@@ -17,6 +17,22 @@ inc = +inc($atom($0) $atom($1));
       +inc($atom($1) $atom($0:$1)); 
       +inc($atom($0:X) $atom($1:X)); 
       +inc($atom($1:X) $atom($0:Y)) -inc($atom(X:$0) $atom(Y)).
+
+Per Alea:
+print process
+  inc.
+  -inc($atom($1:$1) R) $res(R).
+  clean.
+end
+
+;; prints 6 copies of the result
+
+res(atom(0:0:1:0));
+res(atom(0:0:1:0));
+res(atom(0:0:1:0));
+res(atom(0:0:1:0));
+res(atom(0:0:1:0));
+res(atom(0:0:1:0));
 |#
 
 ;;  Binary increment in miniKanren
