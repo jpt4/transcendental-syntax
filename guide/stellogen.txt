@@ -1,7 +1,7 @@
 ;;  stellogen.txt
 ;;  20250102Z
 ;;  Alea, https://x.com/noncanonicAleae
-;;  https://my.webchiver.net/article/1902547/x-com-noncanonicaleae-status-1874893997791170719---1902547.html
+;;  https://x.com/noncanonicAleae/status/1874893997791170719
 ;;  French->English translation of the Guide to Boris Eng's Transcendental Syntax project
 
    Introduction

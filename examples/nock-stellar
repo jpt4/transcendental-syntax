@@ -1,0 +1,41 @@
+//alea
+
+cel? = +cel?($cell(A B) $atom($0)); +cel?($atom(A) $atom($1)).
+
+inc = +inc($atom($0) $atom($1)); +inc($atom($1) $atom($0:$1));
++inc($atom($0:X) $atom($1:X)); +inc($atom($1:X) $atom($0:Y)) -inc($atom(X) $atom(Y)).
+
+and = +and($atom($1) $atom(X) $atom($1)); +and($atom($0) $atom(X) $atom(X)).
+
+eq? = and +eq?($atom($1) $atom($1) $atom($0)); +eq?($atom($0) $atom($0) $atom($0));
++eq?($atom(X) $cell(A B) $atom($1)); +eq?($cell(A B) $atom(X) $atom($1));
++eq?($atom($0) $atom($1) $atom($1)); +eq?($atom($1) $atom($0) $atom($1));
++eq?($atom($0:X) $atom($1:Y) $atom($1)); +eq?($atom($1:X) $atom($0:Y) $atom($1));
++eq?($atom(X:Y) $atom(X:Z) R) -eq?($atom(Y) $atom(Z) R);
++eq?($cell(X Y) $cell(Z W) R) -and($atom(U) $atom(V) R) -eq?(X Z $atom(U)) -eq?(Y W $atom(V)).
+
+slot = +slot($atom($1) A A); +slot($atom($0:$1) $cell(A B) A); +slot($atom($1:$1) $cell(A B) B);
++slot($atom($0:X:Y) A R) -slot($atom(X:Y) A B) -slot($atom($0:$1) B R); +slot($atom($1:X:Y) A R) -slot($atom(X:Y) A B) -slot($atom($1:$1) B R).
+
+edit = slot +edit($atom($1) A B A);
++edit($atom($0:X) A B R) -edit($atom(X) $cell(A C) B R) -slot($atom($1:X) B C); +edit($atom($1:X) A B R) -edit($atom(X) $cell(C A) B R) -slot($atom($0:X) B C).
+
+nock = (slot cel? inc eq?) +nock($cell(A B) R) -nock(A B R); +nock(A $cell(B C) R) -nock(A B C R);
++nock(A $cell(B C) D $cell(U V)) -nock(A B C U) -nock(A C V);
++nock(A $atom($0) B R) -slot(B A R);
++nock(A $atom($1) B B);
++nock(A $atom($0:$1) $cell(B C) R) -nock(U V R) -nock(A B U) -nock(A C U);
++nock(A $atom($1:$1) B R) -cel?(S R) -nock(A B S);
++nock(A $atom($0:$0:$1) B R) -inc(S R) -nock(A B S);
++nock(A $atom($1:$0:$1) $cell(B C R)) -eq?(S T R) -nock(A B S) -nock(A C T).
+
+'print inc @-inc($atom($1:$1) R) R.
+'print slot @-slot($atom($1:$1) $cell($a $b) R) R.
+'print edit @-edit($atom($0:$1) $cell($a $b) $cell($c $d) R) R.
+'print eq? @-eq?($cell($atom($1) $atom($0:$1)) $cell($atom($1) $atom($1:$1)) R) R.
+
+//jpt4
+//Of interest: does this encounter the total partition of ill-shaped nexps in the catch-all redex?
+
+//nock7
++tar(a $atom($1:$0:$1) $cell(b c r1)) -tar($cell(a b) r2) -tar($cell(r2 c) r);
