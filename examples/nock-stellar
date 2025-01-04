@@ -38,4 +38,6 @@ nock = (slot cel? inc eq?) +nock($cell(A B) R) -nock(A B R); +nock(A $cell(B C) 
 //Of interest: does this encounter the total partition of ill-shaped nexps in the catch-all redex?
 
 //nock7
-+tar(a $atom($1:$0:$1) $cell(b c r1)) -tar($cell(a b) r2) -tar($cell(r2 c) r);
++tar(a $atom($1:$0:$1) b c o) -tar(a b res) -tar(res c o);
+//nock8
++tar(a $atom($0:$1:$1) b c d o) -tar(a b res) -tar($cell(res a) c o);
