@@ -37,9 +37,22 @@ nock = (slot cel? inc eq?) +nock($cell(A B) R) -nock(A B R); +nock(A $cell(B C) 
 //jpt4
 //Of interest: does this encounter the total partition of ill-shaped nexps in the catch-all redex?
 
+//nock6
++tar($cell(a
+	   $cell($atom($0:$1:$1)
+ 	         $cell(b
+		       $cell(c d)))) o)
+-tar($cell(a
+           $cell($atom($0:$0:$1)
+                 $cell($atom($0:$0:$1) b))) res1)
+-tar($cell($cell($atom($0:$1) $atom($1:$1))
+           $cell($atom($0) res1)) res2)
+-tar($cell($cell(c d)
+           $cell($atom($0) res2)) res3)
+-tar($cell(a res3));
 //nock7
 +tar($cell(a 
-           $cell($atom($0:$1:$1) 
+           $cell($atom($1:$0:$1) 
                  $cell(b c))) o)
 -tar($cell(a b) res) 
 -tar($cell(res c) o);
