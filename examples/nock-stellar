@@ -72,3 +72,12 @@ nock = (slot cel? inc eq?) +nock($cell(A B) R) -nock(A B R); +nock(A $cell(B C) 
            $cell(2 
                  $cell($cell($atom($0) $atom(1)) 
                        $cell($atom($0) b)))) o);
+//nock10
++tar($cell(a
+	   $cell($atom($0:$1:$0:$1)
+ 	         $cell($cell(b c) d))) o)
+-tar($cell(a c) res1)
+-tar($cell(a d) res2)
+-tar($cell(b
+	   $cell(res1 res2)));
+
