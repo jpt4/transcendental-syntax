@@ -35,7 +35,32 @@ nock = (slot cel? inc eq?) +nock($cell(A B) R) -nock(A B R); +nock(A $cell(B C) 
 'print eq? @-eq?($cell($atom($1) $atom($0:$1)) $cell($atom($1) $atom($1:$1)) R) R.
 
 'jpt4
+'atom
+atom = (patom)
++atom(i) -atom($atom($0));
++atom(i) -atom($atom($1));
+'+atom($atom(a:$1)) -atom(a);
+'+atom($atom(a:$0)) -atom(a). 'this will result in atoms with trailing 0s; need disequality to prevent.
++atom(a:$1) -patom(a). 'unless this works.
+'partial atom
+patom = 
++patom(i) -patom($atom($0));
++patom(i) -patom($atom($1));
++patom($atom(a:$1)) -patom(a);
++patom($atom(a:$0)) -patom(a).
 
+atom 0,1,x1 patom x
+patom 0, 1, x1 patom x, x0 patom x
+patom a:1 
+'cell
+'noun
+
+'nock entry point
+nock = +nock(i o) -tar(i o);
+'wut
+'wut = +wut($cell(a b) o)
+
+'nockComposite - nock5
 
 'nock6
 +tar($cell(a
