@@ -53,8 +53,11 @@ atom 0,1,x1 patom x
 patom 0, 1, x1 patom x, x0 patom x
 patom a:1 
 'cell
+cell = (noun)
++cell(i) -cell($cell(a b)) -noun(a) -noun(b);
 'noun
-
+noun = (atom cell)
++noun(i) -atom(i) -cell(i);
 'nock entry point
 nock = +nock(i o) -tar(i o);
 'wut
