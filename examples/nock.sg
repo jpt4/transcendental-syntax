@@ -54,14 +54,18 @@ patom 0, 1, x1 patom x, x0 patom x
 patom a:1 
 'cell
 cell = (noun)
-+cell(i) -cell($cell(a b)) -noun(a) -noun(b);
++cell(i) -cell($cell(a b)) -noun(a) -noun(b).
 'noun
 noun = (atom cell)
-+noun(i) -atom(i) -cell(i);
++noun(i) -atom(i) -cell(i).
 'nock entry point
-nock = +nock(i o) -tar(i o);
+nock = +nock(i o) -tar(i o).
 'wut
-'wut = +wut($cell(a b) o)
+wut = 
++wut(i o) -cell(i) -wut(i $atom($0));
++wut(i o) -atom(i) -wut(i $atom($1)).
+
+'lus
 
 'nockComposite - nock5
 
@@ -123,7 +127,7 @@ nock = +nock(i o) -tar(i o);
 -tar($cell(a c) o);
 'nock12
 'Of interest: does this require the total, positive specification of ill-shaped nexps in the catch-all redex?
-'+tar(a o) -tar(a o)
++tar(a o) -tar(a o).
 'Possible resolution: a `passed12?` field, tar(input pass? out), which is incremented upon nock12 redux, 
 'and required by all other tar reduxes to be equal to 1. All reduxes except 12 decrement the counter; if the 
 'counter is 0, it passes nock12 for further processing, and if 1, passes and halts. Then, assuming only that 
