@@ -64,8 +64,13 @@ nock = +nock(i o) -tar(i o).
 wut = 
 +wut(i o) -cell(i) -wut(i $atom($0));
 +wut(i o) -atom(i) -wut(i $atom($1)).
-
 'lus
+lus = 
++lus($cell(a b) $err);
++lus($atom($0) $atom($1)); 
++lus($atom($1) $atom($0:$1));
++lus($atom($0:X) $atom($1:X)); 
++lus($atom($1:X) $atom($0:Y)) -lus($atom(X) $atom(Y)).
 
 'nockComposite - nock5
 
