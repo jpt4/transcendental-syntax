@@ -67,4 +67,17 @@ racket@rackets> (run 1 (q) (inco '(1 1 0 1) q))
 '((0 0 1 1))
 racket@rackets> (run 1 (q) (inco '(1 0 1 0 1 1 0 1) q))
 '((0 1 1 0 1 1 0 1))
+racket@rackets> (run* (q) (inco q '(1 0 1 0 1 1 0 1)))
+'((0 0 1 0 1 1 0 1))
+racket@rackets> (run* (q) (inco '(1 0 1 0 1 1 0 1) q))
+'((0 1 1 0 1 1 0 1))
 |#
+
+(define (patomo i)
+  (fresh (a)
+	 (conde 
+	  [(== '(0) i)]
+	  [(== '(1) i)]
+	  [(== `(0 . ,a) i) (patomo a)]
+	  [(== `(1 . ,a) i) (patomo a)]
+	  )))

@@ -1,0 +1,31 @@
+
+'partial atom
+patom = 
++patom($atom($0));
++patom($atom($1));
++patom($atom(A:$1)) -patom($atom(A));
++patom($atom(A:$0)) -patom($atom(A)).
+
+'atom
+atom = patom +atom($atom($0));
++atom($atom($1));
+'+atom($atom(A:$1)) -atom($atom(A));
+'+atom($atom(A:$0)) -atom($atom(A)). 'this will result in atoms with trailing 0s; need disequality to prevent.
++atom($atom(A:$1)) -patom($atom(A)). 'unless this works.
+
+print patom @-patom($atom($0)).
+print patom @-patom($atom($1)).
+print patom @-patom($atom($0:$1)).
+'print patom @-patom($atom($0:$1:$0)). '<- divergent
+'print patom @-patom($atom($0:$1:$1)). '<- divergent
+'print patom @-patom($atom($0:$0:$0)). '<- divergent
+'print patom @-patom($atom($0:$0:$1)). '<- divergent
+'print patom @-patom($atom($1:$0:$1)). '<- divergent
+'print patom @-patom($atom($1:$0:$0)). '<- divergent
+
+print atom @-atom($atom($0)).
+print atom @-atom($atom($1)).
+print atom @-atom($atom($0:$1)).
+print atom @-atom($atom($0:$1:$0)).
+
+
