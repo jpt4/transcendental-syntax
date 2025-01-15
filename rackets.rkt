@@ -81,3 +81,33 @@ racket@rackets> (run* (q) (inco '(1 0 1 0 1 1 0 1) q))
 	  [(== `(0 . ,a) i) (patomo a)]
 	  [(== `(1 . ,a) i) (patomo a)]
 	  )))
+
+(define (nato i)
+  (fresh (d)
+	 (conde
+	  [(== '(0) i)]
+	  [(== '(1) i)]
+	  [(== `(0 . ,d) i)
+	   (=/= '(0) d)
+	   (nato d)]
+	  [(== `(1 . ,d) i)
+	   (=/= '(0) d)
+	   (nato d)])))
+
+(define (appendo l1 l2 o)
+  (fresh (a d res)
+         (conde
+          [(== '() l1) (== l2 o)]
+          [(== '() l2) (== l1 o)]
+          [(== `(,a . ,d) l1) 
+           (== `(,a . ,res) o)
+           (appendo d l2 res)]
+          )))
+
+(define (atomo i)
+  (fresh (a)
+         (conde
+          [(== '(0) i)]
+          [(== '(1) i)]
+          [(appendo a '(1) i) (patomo a)]
+          )))
