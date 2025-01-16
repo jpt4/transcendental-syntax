@@ -18,12 +18,20 @@ patom =
 +patom($1:A) -patom(A);
 +patom($0:A) -patom(A).
 
+append = 
++append($e L2 L2);
++append(CAR:L1 L2 CAR:RES) -append(L1 L2 RES);
+
+print append @-append($a:$b $b:$c R) R. 
+
 'atom
 atom = patom +atom($0);
 +atom($1);
++atom(A:$1) -patom(A). 'unless this works.
+
 '+atom((A:$1)) -atom($atom(A));
 '+atom($atom(A:$0)) -atom($atom(A)). 'this will result in atoms with trailing 0s; need disequality to prevent.
-+atom(A:$1) -patom(A). 'unless this works.
+
 
 '''
 print patom @-patom($0).
