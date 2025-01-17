@@ -1,0 +1,145 @@
+'alea
+
+cel? = +cel?($cell(A B) $atom($0)); +cel?($atom(A) $atom($1)).
+
+inc = +inc($atom($0) $atom($1)); +inc($atom($1) $atom($0:$1));
++inc($atom($0:X) $atom($1:X)); +inc($atom($1:X) $atom($0:Y)) -inc($atom(X) $atom(Y)).
+
+and = +and($atom($1) $atom(X) $atom($1)); +and($atom($0) $atom(X) $atom(X)).
+
+eq? = and +eq?($atom($1) $atom($1) $atom($0)); +eq?($atom($0) $atom($0) $atom($0));
++eq?($atom(X) $cell(A B) $atom($1)); +eq?($cell(A B) $atom(X) $atom($1));
++eq?($atom($0) $atom($1) $atom($1)); +eq?($atom($1) $atom($0) $atom($1));
++eq?($atom($0:X) $atom($1:Y) $atom($1)); +eq?($atom($1:X) $atom($0:Y) $atom($1));
++eq?($atom(X:Y) $atom(X:Z) R) -eq?($atom(Y) $atom(Z) R);
++eq?($cell(X Y) $cell(Z W) R) -and($atom(U) $atom(V) R) -eq?(X Z $atom(U)) -eq?(Y W $atom(V)).
+
+slot = +slot($atom($1) A A); +slot($atom($0:$1) $cell(A B) A); +slot($atom($1:$1) $cell(A B) B);
++slot($atom($0:X:Y) A R) -slot($atom(X:Y) A B) -slot($atom($0:$1) B R); +slot($atom($1:X:Y) A R) -slot($atom(X:Y) A B) -slot($atom($1:$1) B R).
+
+edit = slot +edit($atom($1) A B A);
++edit($atom($0:X) A B R) -edit($atom(X) $cell(A C) B R) -slot($atom($1:X) B C); +edit($atom($1:X) A B R) -edit($atom(X) $cell(C A) B R) -slot($atom($0:X) B C).
+
+nock = (slot cel? inc eq?) +nock($cell(A B) R) -nock(A B R); +nock(A $cell(B C) R) -nock(A B C R);
++nock(A $cell(B C) D $cell(U V)) -nock(A B C U) -nock(A C V);
++nock(A $atom($0) B R) -slot(B A R);
++nock(A $atom($1) B B);
++nock(A $atom($0:$1) $cell(B C) R) -nock(U V R) -nock(A B U) -nock(A C U);
++nock(A $atom($1:$1) B R) -cel?(S R) -nock(A B S);
++nock(A $atom($0:$0:$1) B R) -inc(S R) -nock(A B S);
++nock(A $atom($1:$0:$1) $cell(B C R)) -eq?(S T R) -nock(A B S) -nock(A C T).
+
+'print inc @-inc($atom($1:$1) R) R.
+'print slot @-slot($atom($1:$1) $cell($a $b) R) R.
+'print edit @-edit($atom($0:$1) $cell($a $b) $cell($c $d) R) R.
+'print eq? @-eq?($cell($atom($1) $atom($0:$1)) $cell($atom($1) $atom($1:$1)) R) R.
+
+'jpt4
+'atom
+atom = (patom)
++atom(i) -atom($atom($0));
++atom(i) -atom($atom($1));
+'+atom($atom(a:$1)) -atom(a);
+'+atom($atom(a:$0)) -atom(a). 'this will result in atoms with trailing 0s; need disequality to prevent.
++atom(a:$1) -patom(a). 'unless this works.
+'partial atom
+patom = 
++patom(i) -patom($atom($0));
++patom(i) -patom($atom($1));
++patom($atom(a:$1)) -patom(a);
++patom($atom(a:$0)) -patom(a).
+
+atom 0,1,x1 patom x
+patom 0, 1, x1 patom x, x0 patom x
+patom a:1 
+'cell
+cell = (noun)
++cell(i) -cell($cell(a b)) -noun(a) -noun(b).
+'noun
+noun = (atom cell)
++noun(i) -atom(i) -cell(i).
+'nock entry point
+nock = +nock(i o) -tar(i o).
+'wut
+wut = 
++wut(i o) -cell(i) -wut(i $atom($0));
++wut(i o) -atom(i) -wut(i $atom($1)).
+'lus
+lus = 
++lus($cell(a b) $err);
++lus($atom($0) $atom($1)); 
++lus($atom($1) $atom($0:$1));
++lus($atom($0:X) $atom($1:X)); 
++lus($atom($1:X) $atom($0:Y)) -lus($atom(X) $atom(Y)).
+
+'nockComposite - nock5
+
+'nock6
++tar($cell(a
+	   $cell($atom($0:$1:$1)
+ 	         $cell(b
+		       $cell(c d)))) o)
+-tar($cell(a
+           $cell($atom($0:$0:$1)
+                 $cell($atom($0:$0:$1) b))) res1)
+-tar($cell($cell($atom($0:$1) $atom($1:$1))
+           $cell($atom($0) res1)) res2)
+-tar($cell($cell(c d)
+           $cell($atom($0) res2)) res3)
+-tar($cell(a res3));
+'nock7
++tar($cell(a 
+           $cell($atom($1:$0:$1) 
+                 $cell(b c))) o)
+-tar($cell(a b) res) 
+-tar($cell(res c) o);
+'nock8
++tar($cell(a 
+           $cell($atom($0:$0:$1) 
+                 $cell(b c))) o) 
+-tar($cell(a b) res) 
+-tar($cell($cell(res a) 
+           c) o);
+'nock9
++tar($cell(a 
+           $cell($atom($1:$0:$1) 
+                 $cell(b c))) o)
+-tar($cell(a c) res) 
+-tar($cell(res 
+           $cell(2 
+                 $cell($cell($atom($0) $atom(1)) 
+                       $cell($atom($0) b)))) o);
+'nock10
++tar($cell(a
+	   $cell($atom($0:$1:$0:$1)
+ 	         $cell($cell(b c) d))) o)
+-tar($cell(a c) res1)
+-tar($cell(a d) res2)
+-tar($cell(b
+	   $cell(res1 res2)));
+'nock11a
++tar($cell(a
+	   $cell($atom($1:$1:$0:$1)
+	         $cell($cell(b c) d))) o)
+-tar($cell(a c) res1)
+-tar($cell(a d) res2)
+-tar($cell($cell(res1 res2)
+	   $cell($atom($0) $atom($1:$1))) o);
+'nock11b
++tar(a
+     $cell($atom($1:$1:$0:$1)
+           $cell(b c)) o)
+-tar($cell(a c) o);
+'nock12
+'Of interest: does this require the total, positive specification of ill-shaped nexps in the catch-all redex?
++tar(a o) -tar(a o).
+'Possible resolution: a `passed12?` field, tar(input pass? out), which is incremented upon nock12 redux, 
+'and required by all other tar reduxes to be equal to 1. All reduxes except 12 decrement the counter; if the 
+'counter is 0, it passes nock12 for further processing, and if 1, passes and halts. Then, assuming only that 
+'proof search is sufficiently fair that a nexp will not be processed twice in a row unless compelled to by
+'lack of other options, a complete enumeration of structures which pass nock12, but not nockComposite through
+'nock11b, ought not be required. This is unsatisfactory insofar as it relies on an implementation detail,
+'but 1) exposes the importance of that detail, across abstraction hygiene boundaries; 2) I believe it is
+'coherent with the theory of pure declarative relational logic programming that search be fair.
+
+'However, should the above not work, the nexp space must be totally, positively partitioned:

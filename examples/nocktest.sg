@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 'test
 test =
 +g(X) -f(Y);
@@ -50,3 +51,31 @@ print atom @-atom($1).
 'print atom @-atom($atom($0:$1:$0)).
 
 
+=======
+'partial atom
+patom = 
++patom($atom($0));
++patom($atom($1));
+'+patom($atom($1)).
++patom($atom(a:$1)) -patom($atom(a));
++patom($atom(a:$0)) -patom($atom(a)).
+'+patom($atom(a:$1));
+'+patom($atom(a:$0)).
+
+'atom
+'atom = (patom)
+'+atom(i) -atom($atom($0));
+'+atom(i) -atom($atom($1));
+'+atom($atom(a:$1)) -atom(a);
+'+atom($atom(a:$0)) -atom(a). 'this will result in atoms with trailing 0s; need disequality to prevent.
+'+atom(a:$1) -patom(a). 'unless this works.
+
+'test =
+'+test(I) -test($b).
+
+'print atom @-atom($atom($1)).
+
+'print test @-test($a).
+
+print patom @-patom($atom(R)) R.
+>>>>>>> nock
