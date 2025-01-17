@@ -25,7 +25,7 @@ print process
   clean.
 end
 
-;; prints 6 copies of the result
+n;; prints 6 copies of the result
 
 res(atom(0:0:1:0));
 res(atom(0:0:1:0));
@@ -111,3 +111,9 @@ racket@rackets> (run* (q) (inco '(1 0 1 0 1 1 0 1) q))
           [(== '(1) i)]
           [(appendo a '(1) i) (patomo a)]
           )))
+
+(define (mk-constellation stars)
+  (cons 'constellation stars))
+
+(define (constellation? c)
+  (eq? (and-map star? c) #t))

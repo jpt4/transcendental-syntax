@@ -78,4 +78,8 @@ patom =
 'print test @-test($a).
 
 print patom @-patom($atom(R)) R.
+<<<<<<< HEAD
 >>>>>>> nock
+=======
+>>>>>>> 706b8ff (nocktest.sg)
+>>>>>>> 84c487d (Adding nocktest.sg.)
