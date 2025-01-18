@@ -116,4 +116,17 @@ racket@rackets> (run* (q) (inco '(1 0 1 0 1 1 0 1) q))
   (cons 'constellation stars))
 
 (define (constellation? c)
-  (eq? (and-map star? c) #t))
+  (and-map star? c))
+
+(define (mk-constellation rays)
+  (cons 'star rays))
+
+(define (star? s)
+  (and-map ray? s))
+
+(define (mk-ray colors)
+  (cons 'ray colors))
+
+(define (fuse s1 s2)
+""
+)
